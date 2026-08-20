@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Satisfação</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png">
+    <style>
+        :root {
+            --unimed-green: #004e4c;
+            --bg-color: #004e4c;
+            --surface-color: #ffffff;
+            --text-color: #333333;
+            --star-color: #FFD700; /* Cor dourada das estrelas */
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .form-container { 
+            width: 100%; 
+            max-width: 600px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+
+        /* Container da Logo Centralizada */
+        .logo-container {
+            text-align: center;
+            margin: 0; /* Remove margens que estavam empurrando o título */
+        }
+        
+        .logo-container img {
+            max-width: 200px; 
+            height: auto;
+            margin-top: -60px; /* Puxa a logo para perto do topo do card */
+            margin-bottom: -50px; /* Puxa o título para perto da logo */
+            position: relative;
+        }
+
+        /* Card padrão branco */
+        .card { 
+            background-color: var(--surface-color); 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+        }
+
+        /* Card específico do Título/Subtítulo */
+        .header-card {
+            text-align: center;
+            padding: 30px 20px 20px 20px; /* Reduz espaços em excesso */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Controla perfeitamente a distância entre a logo e o título */
+        }
+
+        .header-card h2 {
+            color: var(--bg-color); /* Título na cor verde do background */
+            margin: 0; /* Zera a margem padrão */
+            font-size: 1.4rem;
+        }
+
+        .header-card p {
+            color: red; /* Subtítulo em vermelho */
+            margin: 5px 0 0 0; /* Espaçamento reduzido em relação ao título */
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .question-title { 
+            font-weight: bold; 
+            color: var(--unimed-green); 
+            margin-bottom: 15px; 
+            display: block; 
+            text-align: left;
+        }
+
+        /* Sistema de Estrelas (Pure CSS) */
+        .star-rating { 
+            display: flex; 
+            flex-direction: row-reverse; /* Inverte a ordem para a lógica do CSS funcionar */
+            justify-content: center; 
+            gap: 2px; 
+        }
+
+        .star-rating input[type="radio"] { 
+            display: none; 
+        }
+
+        .star-rating label { 
+            font-size: 45px; /* Estrelas bem maiores (antes era 35px) */
+            color: #d3d3d3; 
+            cursor: pointer; 
+            transition: color 0.2s ease, transform 0.1s ease; 
+        }
+
+        /* Ajuste de responsividade para telas muito pequenas */
+        @media (max-width: 400px) {
+            .star-rating label { font-size: 34px; /* Maior também no mobile para facilitar o toque */ }
+        }
+
+        /* Lógica de cor ao passar o mouse ou selecionar */
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label,
+        .star-rating input:checked + label { 
+            color: var(--star-color); 
+        }
+
+        /* Feedback de clique */
+        .star-rating label:active {
+            transform: scale(1.15);
+        }
+
+        /* Ajuste de responsividade para telas muito pequenas */
+        @media (max-width: 400px) {
+            .star-rating label { font-size: 26px; }
+        }
+
+        textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            box-sizing: border-box; 
+            min-height: 100px; 
+            font-family: inherit; 
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .submit-btn { 
+            width: 100%; 
+            padding: 16px; 
+            background-color: var(--unimed-green); 
+            color: white;
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 5px; 
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover { background-color: #005f40; }
+
+        .success-message { 
+            display: none; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            text-align: center; 
+            color: var(--unimed-green); 
+            max-width: 600px; 
+            width: 100%; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        #surveyForm {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* É AQUI QUE VOCÊ CONTROLA O ESPAÇAMENTO DOS CARDS DE RATING */
+        }          
+    </style>
+</head>
+<body>
+
+    <div class="form-container" id="mainContainer">
+        
+<!-- Título, Logo e Subtítulo juntos dentro do Card Branco -->
+        <div class="card header-card" id="headerText">
+            
+            <div class="logo-container">
+                <!-- Lembre-se de usar o Link Direto da imagem (terminado em .png ou .jpg) aqui -->
+                <img src="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png" alt="Logo Unimed">
+            </div>
+            
+            <h2>Pesquisa de Satisfação – Policlínica Ibiapaba</h2>
+            <p>Questões com asterisco são obrigatórias!</p>
+        </div>
+
+        <form id="surveyForm">
+            
+            <!-- CAMPO OCULTO QUE IDENTIFICA A UNIDADE -->
+           <input type="hidden" name="local" value="POLICLINICA">
+
+            <div class="card">
+                <label class="question-title">1ª) Avaliação para o agendamento na Policlínica? *</label>
+                <!-- Atenção: O HTML das estrelas é invertido de 10 até 1 por causa do CSS flex-direction: row-reverse -->
+                <div class="star-rating">
+                    <input type="radio" id="q1_10" name="agendamento" value="10" required><label for="q1_10">★</label>
+                    <input type="radio" id="q1_9" name="agendamento" value="9"><label for="q1_9">★</label>
+                    <input type="radio" id="q1_8" name="agendamento" value="8"><label for="q1_8">★</label>
+                    <input type="radio" id="q1_7" name="agendamento" value="7"><label for="q1_7">★</label>
+                    <input type="radio" id="q1_6" name="agendamento" value="6"><label for="q1_6">★</label>
+                    <input type="radio" id="q1_5" name="agendamento" value="5"><label for="q1_5">★</label>
+                    <input type="radio" id="q1_4" name="agendamento" value="4"><label for="q1_4">★</label>
+                    <input type="radio" id="q1_3" name="agendamento" value="3"><label for="q1_3">★</label>
+                    <input type="radio" id="q1_2" name="agendamento" value="2"><label for="q1_2">★</label>
+                    <input type="radio" id="q1_1" name="agendamento" value="1"><label for="q1_1">★</label>
+                </div>
+            </div>
+
+            <div class="card">
+                <label class="question-title">2ª) Avaliação para o(a) atendente? *</label>
+                <div class="star-rating">
+                    <input type="radio" id="q2_10" name="atendente" value="10" required><label for="q2_10">★</label>
+                    <input type="radio" id="q2_9" name="atendente" value="9"><label for="q2_9">★</label>
+                    <input type="radio" id="q2_8" name="atendente" value="8"><label for="q2_8">★</label>
+                    <input type="radio" id="q2_7" name="atendente" value="7"><label for="q2_7">★</label>
+                    <input type="radio" id="q2_6" name="atendente" value="6"><label for="q2_6">★</label>
+                    <input type="radio" id="q2_5" name="atendente" value="5"><label for="q2_5">★</label>
+                    <input type="radio" id="q2_4" name="atendente" value="4"><label for="q2_4">★</label>
+                    <input type="radio" id="q2_3" name="atendente" value="3"><label for="q2_3">★</label>
+                    <input type="radio" id="q2_2" name="atendente" value="2"><label for="q2_2">★</label>
+                    <input type="radio" id="q2_1" name="atendente" value="1"><label for="q2_1">★</label>
+                </div>
+            </div>
+
+            <div class="card">
+                <label class="question-title">3ª) Avaliação para o ambiente, limpeza e estrutura? *</label>
+                <div class="star-rating">
+                    <input type="radio" id="q3_10" name="ambiente" value="10" required><label for="q3_10">★</label>
+                    <input type="radio" id="q3_9" name="ambiente" value="9"><label for="q3_9">★</label>
+                    <input type="radio" id="q3_8" name="ambiente" value="8"><label for="q3_8">★</label>
+                    <input type="radio" id="q3_7" name="ambiente" value="7"><label for="q3_7">★</label>
+                    <input type="radio" id="q3_6" name="ambiente" value="6"><label for="q3_6">★</label>
+                    <input type="radio" id="q3_5" name="ambiente" value="5"><label for="q3_5">★</label>
+                    <input type="radio" id="q3_4" name="ambiente" value="4"><label for="q3_4">★</label>
+                    <input type="radio" id="q3_3" name="ambiente" value="3"><label for="q3_3">★</label>
+                    <input type="radio" id="q3_2" name="ambiente" value="2"><label for="q3_2">★</label>
+                    <input type="radio" id="q3_1" name="ambiente" value="1"><label for="q3_1">★</label>
+                </div>
+            </div>
+
+            <div class="card">
+                <label class="question-title">4ª) Avaliação para o(a) profissional de saúde? *</label>
+                <div class="star-rating">
+                    <input type="radio" id="q4_10" name="profissional" value="10" required><label for="q4_10">★</label>
+                    <input type="radio" id="q4_9" name="profissional" value="9"><label for="q4_9">★</label>
+                    <input type="radio" id="q4_8" name="profissional" value="8"><label for="q4_8">★</label>
+                    <input type="radio" id="q4_7" name="profissional" value="7"><label for="q4_7">★</label>
+                    <input type="radio" id="q4_6" name="profissional" value="6"><label for="q4_6">★</label>
+                    <input type="radio" id="q4_5" name="profissional" value="5"><label for="q4_5">★</label>
+                    <input type="radio" id="q4_4" name="profissional" value="4"><label for="q4_4">★</label>
+                    <input type="radio" id="q4_3" name="profissional" value="3"><label for="q4_3">★</label>
+                    <input type="radio" id="q4_2" name="profissional" value="2"><label for="q4_2">★</label>
+                    <input type="radio" id="q4_1" name="profissional" value="1"><label for="q4_1">★</label>
+                </div>
+            </div>
+
+            <div class="card">
+                <label class="question-title">5ª) Qual sua avaliação geral? *</label>
+                <div class="star-rating">
+                    <input type="radio" id="q5_10" name="geral" value="10" required><label for="q5_10">★</label>
+                    <input type="radio" id="q5_9" name="geral" value="9"><label for="q5_9">★</label>
+                    <input type="radio" id="q5_8" name="geral" value="8"><label for="q5_8">★</label>
+                    <input type="radio" id="q5_7" name="geral" value="7"><label for="q5_7">★</label>
+                    <input type="radio" id="q5_6" name="geral" value="6"><label for="q5_6">★</label>
+                    <input type="radio" id="q5_5" name="geral" value="5"><label for="q5_5">★</label>
+                    <input type="radio" id="q5_4" name="geral" value="4"><label for="q5_4">★</label>
+                    <input type="radio" id="q5_3" name="geral" value="3"><label for="q5_3">★</label>
+                    <input type="radio" id="q5_2" name="geral" value="2"><label for="q5_2">★</label>
+                    <input type="radio" id="q5_1" name="geral" value="1"><label for="q5_1">★</label>
+                </div>
+            </div>
+
+            <div class="card">
+                <label class="question-title">6ª) Sugestões, críticas ou elogios:</label>
+                <textarea name="sugestao" placeholder="Deixe aqui seu comentário..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">ENVIAR</button>
+        </form>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        <h2>Obrigado!</h2>
+        <p>Sua avaliação foi registrada e é muito importante para nós.</p>
+    </div>
+
+    <script>
+        const form = document.getElementById('surveyForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const mainContainer = document.getElementById('mainContainer');
+        const successMessage = document.getElementById('successMessage');
+
+        // COLE A SUA URL GERADA NO GOOGLE APPS SCRIPT AQUI:
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwfiT-jQ564pPzS2QVcjnWDTM8kODEKi9q8Z5YeEaFgKLXgTCKEzAPbw569_YQy8Y98dw/exec';
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+            .then(() => {
+                mainContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+                setTimeout(() => { window.location.reload(); }, 3000);
+            })
+            .catch(() => {
+                submitBtn.textContent = 'Erro de conexão. Tente novamente.';
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

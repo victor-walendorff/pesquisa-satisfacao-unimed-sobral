@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Satisfação - Operadora</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png">
+    <style>
+        :root {
+            --unimed-green: #004e4c;
+            --bg-color: #004e4c; 
+            --surface-color: #ffffff;
+            --text-color: #333333;
+        }
+        
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        .form-container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px; }
+        
+        .logo-container { text-align: center; margin: 0; }
+        .logo-container img {
+            max-width: 200px; 
+            height: auto;
+            margin-top: -60px; /* Puxa a logo para perto do topo do card */
+            margin-bottom: -50px; /* Puxa o título para perto da logo */
+            position: relative;
+        }
+
+        .card { 
+            background-color: var(--surface-color); 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+        }
+
+        /* Card específico do Título/Subtítulo */
+        .header-card {
+            text-align: center;
+            padding: 30px 20px 20px 20px; /* Reduz espaços em excesso */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Controla perfeitamente a distância entre a logo e o título */
+        }
+
+        .header-card h2 {
+            color: var(--bg-color); /* Título na cor verde do background */
+            margin: 0; /* Zera a margem padrão */
+            font-size: 1.4rem;
+        }
+
+        .header-card p {
+            color: red; /* Subtítulo em vermelho */
+            margin: 5px 0 0 0; /* Espaçamento reduzido em relação ao título */
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .question-title { font-weight: bold; color: var(--unimed-green); margin-bottom: 15px; display: block; text-align: left; font-size: 1.05rem; }
+
+        /* Campos de Texto Básicos */
+        input[type="text"], textarea { 
+            width: 100%; padding: 14px; border: 1px solid #ccc; 
+            border-radius: 6px; box-sizing: border-box; font-family: inherit; 
+            font-size: 1rem; background-color: #f9f9f9; transition: 0.2s;
+        }
+        input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--unimed-green); }
+        textarea { min-height: 100px; resize: vertical; }
+
+        /* Grupo de Escolha (Atendentes) */
+        .wrap-group { display: flex; flex-wrap: wrap; gap: 10px; }
+        .wrap-group input[type="radio"] { display: none; }
+        .wrap-group label {
+            flex: 1 1 calc(33% - 10px); min-width: 100px; text-align: center; padding: 12px 5px;
+            background-color: #e9ecef; border-radius: 6px; cursor: pointer; 
+            font-weight: bold; color: #555; transition: 0.2s ease; font-size: 0.95rem;
+        }
+        .wrap-group input[type="radio"]:checked + label { background-color: var(--unimed-green); color: white; transform: scale(1.02); }
+
+        /* Grade Interativa (Excelente a Ruim) */
+        .grid-rating { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-rating input[type="radio"] { display: none; }
+        .grid-rating label {
+            text-align: center; padding: 18px 10px; background-color: #e9ecef; 
+            border-radius: 8px; cursor: pointer; font-weight: bold; color: #555; 
+            transition: 0.2s ease; font-size: 1.1rem; display: flex; flex-direction: column; gap: 5px;
+        }
+        .grid-rating label span { font-size: 1.8rem; } /* Tamanho do Emoji */
+        .grid-rating input[type="radio"]:checked + label { background-color: var(--unimed-green); color: white; transform: scale(1.03); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+
+        .submit-btn { width: 100%; padding: 16px; background-color: var(--unimed-green); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 5px; transition: 0.2s; }
+        .submit-btn:hover { background-color: #005f40; }
+        .success-message { display: none; background: white; padding: 40px; border-radius: 8px; text-align: center; color: var(--unimed-green); max-width: 600px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        #surveyForm { display: flex; flex-direction: column; gap: 15px; }          
+    </style>
+</head>
+<body>
+
+    <div class="form-container" id="mainContainer">
+        
+        <div class="card header-card">
+            <div class="logo-container">
+                <!-- COLOQUE SEU LINK DIRETO DA LOGO (PNG) AQUI -->
+                <img src="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png" alt="Logo Unimed">
+            </div>
+            <h2>Pesquisa de Satisfação – Operadora</h2>
+            <p>Questões com asterisco são obrigatórias!</p>
+        </div>
+
+        <form id="surveyForm">
+            <!-- ABA DA PLANILHA -->
+            <input type="hidden" name="local" value="OPERADORA">
+
+            <!-- PERGUNTA 1 -->
+            <div class="card">
+                <label class="question-title">1ª) Nome Completo (Opcional):</label>
+                <input type="text" name="nome" placeholder="Digite seu nome (caso deseje se identificar)">
+            </div>
+
+            <!-- PERGUNTA 2 -->
+            <div class="card">
+                <label class="question-title">2ª) Quem realizou seu atendimento? *</label>
+                <div class="wrap-group">
+                    <input type="radio" id="at1" name="atendente" value="Emanuela" required><label for="at1">Emanuela</label>
+                    <input type="radio" id="at2" name="atendente" value="Jéssica"><label for="at2">Jéssica</label>
+                    <input type="radio" id="at3" name="atendente" value="Laelia"><label for="at3">Laelia</label>
+                    <input type="radio" id="at4" name="atendente" value="Sâmia"><label for="at4">Sâmia</label>
+                    <input type="radio" id="at5" name="atendente" value="Bruna"><label for="at5">Bruna</label>
+                    <input type="radio" id="at6" name="atendente" value="Outro"><label for="at6">Outro</label>
+                </div>
+                <!-- Campo oculto que aparece se "Outro" for clicado -->
+                <input type="text" id="campo_outro" name="atendente_outro" placeholder="Digite o nome do atendente..." style="display: none; margin-top: 15px;">
+            </div>
+
+            <!-- PERGUNTA 3 (Avaliação Interativa) -->
+            <div class="card">
+                <label class="question-title">3ª) Como você avalia este atendimento? *</label>
+                <div class="grid-rating">
+                    <input type="radio" id="av1" name="avaliacao" value="Excelente" required>
+                    <label for="av1"><span>🤩</span> Excelente</label>
+                    
+                    <input type="radio" id="av2" name="avaliacao" value="Bom">
+                    <label for="av2"><span>🙂</span> Bom</label>
+                    
+                    <input type="radio" id="av3" name="avaliacao" value="Regular">
+                    <label for="av3"><span>😐</span> Regular</label>
+                    
+                    <input type="radio" id="av4" name="avaliacao" value="Ruim">
+                    <label for="av4"><span>😞</span> Ruim</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 4 -->
+            <div class="card">
+                <label class="question-title">4ª) Caso deseje, deixe alguma observação (elogio, crítica ou sugestão):</label>
+                <textarea name="observacao" placeholder="Deixe aqui seu comentário..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">ENVIAR AVALIAÇÃO</button>
+        </form>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        <h2>Obrigado!</h2>
+        <p>Sua avaliação foi registrada e é muito importante para nós.</p>
+    </div>
+
+    <script>
+        // Lógica para mostrar/esconder o campo "Outro"
+        const radiosAtendente = document.querySelectorAll('input[name="atendente"]');
+        const campoOutro = document.getElementById('campo_outro');
+
+        radiosAtendente.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'Outro') {
+                    campoOutro.style.display = 'block';
+                    campoOutro.required = true;
+                } else {
+                    campoOutro.style.display = 'none';
+                    campoOutro.required = false;
+                    campoOutro.value = ''; // Limpa se o paciente desistir e escolher outro
+                }
+            });
+        });
+
+        // Submissão do Formulário
+        const form = document.getElementById('surveyForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const mainContainer = document.getElementById('mainContainer');
+        const successMessage = document.getElementById('successMessage');
+
+        // COLE A SUA MESMA URL DO GOOGLE APPS SCRIPT AQUI ABAIXO:
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwfiT-jQ564pPzS2QVcjnWDTM8kODEKi9q8Z5YeEaFgKLXgTCKEzAPbw569_YQy8Y98dw/exec';
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+            .then(() => {
+                mainContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+                setTimeout(() => { window.location.reload(); }, 3000);
+            })
+            .catch(() => {
+                submitBtn.textContent = 'Erro de conexão. Tente novamente.';
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

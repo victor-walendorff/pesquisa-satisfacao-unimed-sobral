@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Satisfação - AIS Sobral</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png">
+    <style>
+        :root {
+            --unimed-green: #004e4c;
+            --bg-color: #004e4c; 
+            --surface-color: #ffffff;
+            --text-color: #333333;
+            --star-color: #FFD700; 
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .form-container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px; }
+
+        .logo-container { text-align: center; margin: 0; }
+        .logo-container img {
+            max-width: 200px; 
+            height: auto;
+            margin-top: -60px; /* Puxa a logo para perto do topo do card */
+            margin-bottom: -50px; /* Puxa o título para perto da logo */
+            position: relative;
+        }
+
+        .card { 
+            background-color: var(--surface-color); 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+        }
+
+        /* Card específico do Título/Subtítulo */
+        .header-card {
+            text-align: center;
+            padding: 30px 20px 20px 20px; /* Reduz espaços em excesso */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Controla perfeitamente a distância entre a logo e o título */
+        }
+
+        .header-card h2 {
+            color: var(--bg-color); /* Título na cor verde do background */
+            margin: 0; /* Zera a margem padrão */
+            font-size: 1.4rem;
+        }
+
+        .header-card p {
+            color: red; /* Subtítulo em vermelho */
+            margin: 5px 0 0 0; /* Espaçamento reduzido em relação ao título */
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .question-title { 
+            font-weight: bold; 
+            color: var(--unimed-green); 
+            margin-bottom: 15px; 
+            display: block; 
+            text-align: left;
+        }
+
+        /* Estilos Select e Textarea */
+        select, textarea { 
+            width: 100%; padding: 14px; border: 1px solid #ccc; 
+            border-radius: 6px; box-sizing: border-box; font-family: inherit; 
+            font-size: 1rem; background-color: #f9f9f9;
+        }
+        select:focus, textarea:focus { outline: none; border-color: var(--unimed-green); }
+        textarea { min-height: 100px; resize: vertical; }
+
+        /* Estilo das Estrelas */
+        .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 2px; }
+        .star-rating input[type="radio"] { display: none; }
+        .star-rating label { font-size: 50px; color: #d3d3d3; cursor: pointer; transition: 0.2s ease; }
+        .star-rating label:hover, .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label, .star-rating input:checked + label { color: var(--star-color); }
+        .star-rating label:active { transform: scale(1.15); }
+        
+        /* Estilo dos Botões Sim/Não */
+        .choice-group { display: flex; gap: 10px; }
+        .choice-group input[type="radio"] { display: none; }
+        .choice-group label {
+            flex: 1; text-align: center; padding: 14px;
+            background-color: #e9ecef; border-radius: 6px;
+            cursor: pointer; font-weight: bold; color: #555; transition: 0.2s ease;
+        }
+        .choice-group input[type="radio"]:checked + label {
+            background-color: var(--unimed-green); color: white; transform: scale(1.02);
+        }
+
+        @media (max-width: 400px) { .star-rating label { font-size: 34px; } }
+
+        .submit-btn { width: 100%; padding: 16px; background-color: var(--unimed-green); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 5px; transition: 0.2s; }
+        .submit-btn:hover { background-color: #005f40; }
+
+        .success-message { display: none; background: white; padding: 40px; border-radius: 8px; text-align: center; color: var(--unimed-green); max-width: 600px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        #surveyForm { display: flex; flex-direction: column; gap: 15px; }          
+    </style>
+</head>
+<body>
+
+    <div class="form-container" id="mainContainer">
+        
+        <div class="card header-card" id="headerText">
+            <div class="logo-container">
+                <!-- COLOQUE SEU LINK DIRETO DA LOGO (PNG) AQUI -->
+                <img src="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png" alt="Logo Unimed">
+            </div>
+            <h2>Pesquisa de Satisfação – AIS Sobral</h2>
+            <p>Questões com asterisco são obrigatórias!</p>
+        </div>
+
+        <form id="surveyForm">
+            <!-- ROTEADOR PARA A ABA DA PLANILHA -->
+            <input type="hidden" name="local" value="AIS">
+
+            <!-- PERGUNTA 1 -->
+            <div class="card">
+                <label class="question-title">1ª) Qual é o nome do profissional que lhe atendeu? *</label>
+                <select name="profissional" required>
+                    <option value="" disabled selected>Selecione o profissional...</option>
+                    <option value="Alita Silva Ribeiro Arcanjo (Gerente APS)">Alita Silva Ribeiro Arcanjo (Gerente APS)</option>
+                    <option value="Ana Maria Abel de Sousa (Técnica de enfermagem)">Ana Maria Abel de Sousa (Técnica de enfermagem)</option>
+                    <option value="Antonia Ediva Lima Pereira (Serviços Gerais)">Antonia Ediva Lima Pereira (Serviços Gerais)</option>
+                    <option value="Antonio Marciano T Rodrigues (Motorista)">Antonio Marciano T Rodrigues (Motorista)</option>
+                    <option value="Claudiana Maria Solon Aguiar (Fisioterapeuta)">Claudiana Maria Solon Aguiar (Fisioterapeuta)</option>
+                    <option value="Clínica De Fisioterapia">Clínica De Fisioterapia</option>
+                    <option value="Clínica Interação">Clínica Interação</option>
+                    <option value="Daiana Marques Mouta (Neuropsicologa)">Daiana Marques Mouta (Neuropsicologa)</option>
+                    <option value="Dr Sergio Lúcio Albuquerque Nóbrega (Psiquiatra)">Dr Sergio Lúcio Albuquerque Nóbrega (Psiquiatra)</option>
+                    <option value="Dr. Danilo Santos Guerreiro (Pneumologista Pediátrico)">Dr. Danilo Santos Guerreiro (Pneumologista Pediátrico)</option>
+                    <option value="Dr. Francisco Airton Rangel Filho (Ginecologista)">Dr. Francisco Airton Rangel Filho (Ginecologista)</option>
+                    <option value="Dr. Guilherme Porto Lustosa (Gastropediátrico)">Dr. Guilherme Porto Lustosa (Gastropediátrico)</option>
+                    <option value="Dr. Isaac Holanda Mendes Mais (Neurologista)">Dr. Isaac Holanda Mendes Mais (Neurologista)</option>
+                    <option value="Dr. Joaquim Nogueira Lopes Neto (Coordenador Médico APS)">Dr. Joaquim Nogueira Lopes Neto (Coordenador Médico APS)</option>
+                    <option value="Dr. Leonardo Tiago Costa dos Santos (Psiquiatra)">Dr. Leonardo Tiago Costa dos Santos (Psiquiatra)</option>
+                    <option value="Dr. Pedro Rubens Araújo Carvalho (Neurologista)">Dr. Pedro Rubens Araújo Carvalho (Neurologista)</option>
+                    <option value="Dr. Rafael Sousa Brito (Pneumologista Adulto)">Dr. Rafael Sousa Brito (Pneumologista Adulto)</option>
+                    <option value="Dr. Sânkia Maria Lopes Aragão (Ultrassonografista)">Dr. Sânkia Maria Lopes Aragão (Ultrassonografista)</option>
+                    <option value="Dr. Tadeu Rodriguez De C. Pinheiro (Ginecologista)">Dr. Tadeu Rodriguez De C. Pinheiro (Ginecologista)</option>
+                    <option value="Dr. Vicente Cristino de Menezes Neto (Acupunturista)">Dr. Vicente Cristino de Menezes Neto (Acupunturista)</option>
+                    <option value="Dr. Yure Guimarães Azevedo (Reumatologista)">Dr. Yure Guimarães Azevedo (Reumatologista)</option>
+                    <option value="DRA. LAÍS JORGE (ENDOCRINOLOGISTA)">DRA. LAÍS JORGE (ENDOCRINOLOGISTA)</option>
+                    <option value="Dra. Andrea Edwigs Pinheiro Menezes Barreto (Alergologista)">Dra. Andrea Edwigs Pinheiro Menezes Barreto (Alergologista)</option>
+                    <option value="Dra. Dandara Vasconcelos Bevilaqua (Médica Sad)">Dra. Dandara Vasconcelos Bevilaqua (Médica Sad)</option>
+                    <option value="Dra. Laís Jorge Moura (Endocrinologista)">Dra. Laís Jorge Moura (Endocrinologista)</option>
+                    <option value="Dra. Lívia Nobre (Pediatra)">Dra. Lívia Nobre (Pediatra)</option>
+                    <option value="Dra. Nara Lívia Pereira Coutinho (Médica Fetal)">Dra. Nara Lívia Pereira Coutinho (Médica Fetal)</option>
+                    <option value="Dra. Raissa Almeida Barros de Oliveira Pereira (Endocrinologista pediátrica)">Dra. Raissa Almeida Barros de Oliveira Pereira (Endocrinologista pediátrica)</option>
+                    <option value="Dra. Sankia Maria Lopes Aragão (Médica da Família e Comunidade)">Dra. Sankia Maria Lopes Aragão (Médica da Família e Comunidade)</option>
+                    <option value="Edival Bringel de Olinda (Gerente Financeiro)">Edival Bringel de Olinda (Gerente Financeiro)</option>
+                    <option value="Edmilson Ferreira Bezerra Filho (Fisioterapeuta)">Edmilson Ferreira Bezerra Filho (Fisioterapeuta)</option>
+                    <option value="Fernanda Pontes d Silva (Fonoaudióloga)">Fernanda Pontes d Silva (Fonoaudióloga)</option>
+                    <option value="Francisco Auricélio Ribeiro da Costa (Almoxarife)">Francisco Auricélio Ribeiro da Costa (Almoxarife)</option>
+                    <option value="Francisco Kaylton Vericissimo de Sá (Fisioterapeuta)">Francisco Kaylton Vericissimo de Sá (Fisioterapeuta)</option>
+                    <option value="Ismael Lee da Cunha Marques (Profissional de Educação Física)">Ismael Lee da Cunha Marques (Profissional de Educação Física)</option>
+                    <option value="Jaci Bianca Cabral Vasconcelos (Psicóloga)">Jaci Bianca Cabral Vasconcelos (Psicóloga)</option>
+                    <option value="Jacqueline De Oliveira Lima (Coordenadora APS)">Jacqueline De Oliveira Lima (Coordenadora APS)</option>
+                    <option value="Jamille Thayna Barroso Venuto (Psicóloga)">Jamille Thayna Barroso Venuto (Psicóloga)</option>
+                    <option value="Joelma Gomes Lima (Coordenadora da Clínica de Interação)">Joelma Gomes Lima (Coordenadora da Clínica de Interação)</option>
+                    <option value="Kaliane Pereira Costa (Fisioterapeuta)">Kaliane Pereira Costa (Fisioterapeuta)</option>
+                    <option value="Kamilla Cardoso Tavares (Analista Administrativo)">Kamilla Cardoso Tavares (Analista Administrativo)</option>
+                    <option value="Keven Mendes Moreira (Fisioterapeuta)">Keven Mendes Moreira (Fisioterapeuta)</option>
+                    <option value="Kilvia Feitoza Ferreira (Psicóloga)">Kilvia Feitoza Ferreira (Psicóloga)</option>
+                    <option value="Leandro Ferreira Lopes (Segurança)">Leandro Ferreira Lopes (Segurança)</option>
+                    <option value="Leiliane Araujo Gadelha Costa (Fisioterapeuta)">Leiliane Araujo Gadelha Costa (Fisioterapeuta)</option>
+                    <option value="Márcia Regina Parente Pazin (Fisioterapeuta)">Márcia Regina Parente Pazin (Fisioterapeuta)</option>
+                    <option value="MARIA JOSÉ (FONOAUDIOLOGA)">MARIA JOSÉ (FONOAUDIOLOGA)</option>
+                    <option value="Maria José Paiva de Moura (Fonoaudióloga)">Maria José Paiva de Moura (Fonoaudióloga)</option>
+                    <option value="Marina Carvalho Nogueira Veras (Nutricionista)">Marina Carvalho Nogueira Veras (Nutricionista)</option>
+                    <option value="Monica Maria Rodrigues De Franca (Técnica De Enfermagem)">Monica Maria Rodrigues De Franca (Técnica De Enfermagem)</option>
+                    <option value="Natercia Almeida Martins (Atendente)">Natercia Almeida Martins (Atendente)</option>
+                    <option value="Pedro Da Silva Coelho (Serviços Gerais)">Pedro Da Silva Coelho (Serviços Gerais)</option>
+                    <option value="Polyane Rodrigues Vasconcelos (Enfermeira)">Polyane Rodrigues Vasconcelos (Enfermeira)</option>
+                    <option value="Quenia Isaias Venuto Lima (Terapeuta Ocupacional)">Quenia Isaias Venuto Lima (Terapeuta Ocupacional)</option>
+                    <option value="Renata Cassemiro Feijão (Psicóloga)">Renata Cassemiro Feijão (Psicóloga)</option>
+                    <option value="Rhana Mont'alverne Barreto (Fisioterapeuta)">Rhana Mont'alverne Barreto (Fisioterapeuta)</option>
+                    <option value="Rildon Alves da Costa (Farmacêutico)">Rildon Alves da Costa (Farmacêutico)</option>
+                    <option value="Rojelma Carneiro Ferreira (Enfermeira)">Rojelma Carneiro Ferreira (Enfermeira)</option>
+                    <option value="Rosyane Maria C Vasconcelos Sousa (Farmacêutica)">Rosyane Maria C Vasconcelos Sousa (Farmacêutica)</option>
+                    <option value="Sander Paulo Carneiro Flor (Psicólogo)">Sander Paulo Carneiro Flor (Psicólogo)</option>
+                    <option value="Sarah Carvalho Félix (Nutricionista)">Sarah Carvalho Félix (Nutricionista)</option>
+                    <option value="Serviço De Atendimento Domiciliar – Sad">Serviço De Atendimento Domiciliar – Sad</option>
+                    <option value="Talita Ramos Bantim (Coordenadora Sad)">Talita Ramos Bantim (Coordenadora Sad)</option>
+                    <option value="Thaisa Quixadá Fontenele (Psicóloga)">Thaisa Quixadá Fontenele (Psicóloga)</option>
+                    <option value="Thiago Carvalho Freitas (Psicólogo)">Thiago Carvalho Freitas (Psicólogo)</option>
+                    <option value="Vinicius De Sousa Lopes (Administrativo)">Vinicius De Sousa Lopes (Administrativo)</option>
+                </select>
+            </div>
+
+            <!-- PERGUNTA 2 -->
+            <div class="card">
+                <label class="question-title">2ª) Qual nota você dá para os horários disponíveis para o agendamento da consulta (ou procedimento)? *</label>
+                <div class="star-rating">
+                    <input type="radio" id="a2_10" name="avaliacao_horario" value="10" required><label for="a2_10">★</label>
+                    <input type="radio" id="a2_9" name="avaliacao_horario" value="9"><label for="a2_9">★</label>
+                    <input type="radio" id="a2_8" name="avaliacao_horario" value="8"><label for="a2_8">★</label>
+                    <input type="radio" id="a2_7" name="avaliacao_horario" value="7"><label for="a2_7">★</label>
+                    <input type="radio" id="a2_6" name="avaliacao_horario" value="6"><label for="a2_6">★</label>
+                    <input type="radio" id="a2_5" name="avaliacao_horario" value="5"><label for="a2_5">★</label>
+                    <input type="radio" id="a2_4" name="avaliacao_horario" value="4"><label for="a2_4">★</label>
+                    <input type="radio" id="a2_3" name="avaliacao_horario" value="3"><label for="a2_3">★</label>
+                    <input type="radio" id="a2_2" name="avaliacao_horario" value="2"><label for="a2_2">★</label>
+                    <input type="radio" id="a2_1" name="avaliacao_horario" value="1"><label for="a2_1">★</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 3 -->
+            <div class="card">
+                <label class="question-title">3ª) Você gostou do seu atendimento? *</label>
+                <div class="choice-group">
+                    <input type="radio" id="a3_sim" name="gostou_atendimento" value="Sim" required><label for="a3_sim">Sim</label>
+                    <input type="radio" id="a3_nao" name="gostou_atendimento" value="Não"><label for="a3_nao">Não</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 4 -->
+            <div class="card">
+                <label class="question-title">4ª) Você recomendaria os nossos serviços? *</label>
+                <div class="choice-group">
+                    <input type="radio" id="a4_sim" name="recomendaria" value="Sim" required><label for="a4_sim">Sim</label>
+                    <input type="radio" id="a4_nao" name="recomendaria" value="Não"><label for="a4_nao">Não</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 5 -->
+            <div class="card">
+                <label class="question-title">5ª) De modo geral, qual nota você dá aos nossos serviços? *</label>
+                <div class="star-rating">
+                    <input type="radio" id="a5_10" name="avaliacao_geral" value="10" required><label for="a5_10">★</label>
+                    <input type="radio" id="a5_9" name="avaliacao_geral" value="9"><label for="a5_9">★</label>
+                    <input type="radio" id="a5_8" name="avaliacao_geral" value="8"><label for="a5_8">★</label>
+                    <input type="radio" id="a5_7" name="avaliacao_geral" value="7"><label for="a5_7">★</label>
+                    <input type="radio" id="a5_6" name="avaliacao_geral" value="6"><label for="a5_6">★</label>
+                    <input type="radio" id="a5_5" name="avaliacao_geral" value="5"><label for="a5_5">★</label>
+                    <input type="radio" id="a5_4" name="avaliacao_geral" value="4"><label for="a5_4">★</label>
+                    <input type="radio" id="a5_3" name="avaliacao_geral" value="3"><label for="a5_3">★</label>
+                    <input type="radio" id="a5_2" name="avaliacao_geral" value="2"><label for="a5_2">★</label>
+                    <input type="radio" id="a5_1" name="avaliacao_geral" value="1"><label for="a5_1">★</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 6 -->
+            <div class="card">
+                <label class="question-title">6ª) Sugestões, críticas ou elogios:</label>
+                <textarea name="sugestoes" placeholder="Deixe aqui seu comentário..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">ENVIAR AVALIAÇÃO</button>
+        </form>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        <h2>Obrigado!</h2>
+        <p>Sua avaliação foi registrada e é muito importante para nós.</p>
+    </div>
+
+    <script>
+        const form = document.getElementById('surveyForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const mainContainer = document.getElementById('mainContainer');
+        const successMessage = document.getElementById('successMessage');
+
+        // COLE A SUA MESMA URL DO GOOGLE APPS SCRIPT AQUI ABAIXO:
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwfiT-jQ564pPzS2QVcjnWDTM8kODEKi9q8Z5YeEaFgKLXgTCKEzAPbw569_YQy8Y98dw/exec';
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+            .then(() => {
+                mainContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+                setTimeout(() => { window.location.reload(); }, 3000);
+            })
+            .catch(() => {
+                submitBtn.textContent = 'Erro de conexão. Tente novamente.';
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
