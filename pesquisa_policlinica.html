@@ -300,15 +300,24 @@
         const mainContainer = document.getElementById('mainContainer');
         const successMessage = document.getElementById('successMessage');
 
-        // COLE A SUA URL GERADA NO GOOGLE APPS SCRIPT AQUI:
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzFtZ2a1VB7uiEaQwU4os1kKUeCjLlFdnvdxZrExMWE1iWiNuvx6LmaRcdiXSRkjzYafQ/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyr3bnhd0me_FBTQeogIquXV-gkIkGlW9hAvxOF211vs0OaF7FuOyMcewCTz0xukKWttQ/exec';
 
         form.addEventListener('submit', e => {
             e.preventDefault();
             submitBtn.textContent = 'Enviando...';
             submitBtn.disabled = true;
 
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+            // Converte os dados do formulário em um objeto JSON real
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => (data[key] = value));
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Contorna o bloqueio mantendo os dados
+                body: JSON.stringify(data)
+            })
             .then(() => {
                 mainContainer.style.display = 'none';
                 successMessage.style.display = 'block';
