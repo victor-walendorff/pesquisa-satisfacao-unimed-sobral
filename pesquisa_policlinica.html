@@ -91,7 +91,7 @@
             display: flex; 
             flex-direction: row-reverse; /* Inverte a ordem para a lógica do CSS funcionar */
             justify-content: center; 
-            gap: 2px; 
+            gap: 1px; 
         }
 
         .star-rating input[type="radio"] { 
@@ -99,7 +99,7 @@
         }
 
         .star-rating label { 
-            font-size: 45px; /* Estrelas bem maiores (antes era 35px) */
+            font-size: 38px; /* Estrelas bem maiores (antes era 35px) */
             color: #d3d3d3; 
             cursor: pointer; 
             transition: color 0.2s ease, transform 0.1s ease; 
@@ -107,7 +107,7 @@
 
         /* Ajuste de responsividade para telas muito pequenas */
         @media (max-width: 400px) {
-            .star-rating label { font-size: 34px; /* Maior também no mobile para facilitar o toque */ }
+            .star-rating label { font-size: 30px; /* Maior também no mobile para facilitar o toque */ }
         }
 
         /* Lógica de cor ao passar o mouse ou selecionar */
