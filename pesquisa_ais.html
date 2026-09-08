@@ -86,10 +86,12 @@
         /* Estilo das Estrelas */
         .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 2px; }
         .star-rating input[type="radio"] { display: none; }
-        .star-rating label { font-size: 50px; color: #d3d3d3; cursor: pointer; transition: 0.2s ease; }
+        .star-rating label { font-size: 45px; color: #d3d3d3; cursor: pointer; transition: 0.2s ease transform 0.1s ease; }
         .star-rating label:hover, .star-rating label:hover ~ label,
         .star-rating input:checked ~ label, .star-rating input:checked + label { color: var(--star-color); }
         .star-rating label:active { transform: scale(1.15); }
+        
+        @media (max-width: 400px) { .star-rating label { font-size: 34px; } }
         
         /* Estilo dos Botões Sim/Não */
         .choice-group { display: flex; gap: 10px; }
@@ -103,7 +105,8 @@
             background-color: var(--unimed-green); color: white; transform: scale(1.02);
         }
 
-        @media (max-width: 400px) { .star-rating label { font-size: 34px; } }
+        
+        
 
         .submit-btn { 
             width: 100%; 
