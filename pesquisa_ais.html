@@ -31,8 +31,8 @@
         .logo-container img {
             max-width: 200px; 
             height: auto;
-            margin-top: -60px; /* Puxa a logo para perto do topo do card */
-            margin-bottom: -50px; /* Puxa o título para perto da logo */
+            margin-top: -60px;
+            margin-bottom: -50px;
             position: relative;
         }
 
@@ -43,25 +43,24 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
         }
 
-        /* Card específico do Título/Subtítulo */
         .header-card {
             text-align: center;
-            padding: 30px 20px 20px 20px; /* Reduz espaços em excesso */
+            padding: 30px 20px 20px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px; /* Controla perfeitamente a distância entre a logo e o título */
+            gap: 10px;
         }
 
         .header-card h2 {
-            color: var(--bg-color); /* Título na cor verde do background */
-            margin: 0; /* Zera a margem padrão */
+            color: var(--bg-color);
+            margin: 0;
             font-size: 1.4rem;
         }
 
         .header-card p {
-            color: red; /* Subtítulo em vermelho */
-            margin: 5px 0 0 0; /* Espaçamento reduzido em relação ao título */
+            color: red;
+            margin: 5px 0 0 0;
             font-size: 0.95rem;
             font-weight: 600;
         }
@@ -74,13 +73,13 @@
             text-align: left;
         }
 
-        /* Estilos Select e Textarea */
-        select, textarea { 
+        /* Estilo do Input com Datalist */
+        input[type="text"], textarea { 
             width: 100%; padding: 14px; border: 1px solid #ccc; 
             border-radius: 6px; box-sizing: border-box; font-family: inherit; 
             font-size: 1rem; background-color: #f9f9f9;
         }
-        select:focus, textarea:focus { outline: none; border-color: var(--unimed-green); }
+        input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--unimed-green); }
         textarea { min-height: 100px; resize: vertical; }
 
         /* Estilo das Estrelas */
@@ -104,9 +103,6 @@
         .choice-group input[type="radio"]:checked + label {
             background-color: var(--unimed-green); color: white; transform: scale(1.02);
         }
-
-        
-        
 
         .submit-btn { 
             width: 100%; 
@@ -137,7 +133,6 @@
         
         <div class="card header-card" id="headerText">
             <div class="logo-container">
-                <!-- COLOQUE SEU LINK DIRETO DA LOGO (PNG) AQUI -->
                 <img src="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png" alt="Logo Unimed">
             </div>
             <h2>Pesquisa de Satisfação – AIS Sobral</h2>
@@ -145,81 +140,81 @@
         </div>
 
         <form id="surveyForm">
-            <!-- ROTEADOR PARA A ABA DA PLANILHA -->
             <input type="hidden" name="local" value="AIS">
 
-            <!-- PERGUNTA 1 -->
+            <!-- PERGUNTA 1 COM PESQUISA E LISTAGEM SIMULTÂNEAS -->
             <div class="card">
-                <label class="question-title">1ª) Qual é o nome do profissional que lhe atendeu? *</label>
-                <select name="profissional" required>
-                    <option value="" disabled selected>Selecione o profissional...</option>
-                    <option value="Alita Silva Ribeiro Arcanjo (Gerente APS)">Alita Silva Ribeiro Arcanjo (Gerente APS)</option>
-                    <option value="Ana Maria Abel de Sousa (Técnica de enfermagem)">Ana Maria Abel de Sousa (Técnica de enfermagem)</option>
-                    <option value="Antonia Ediva Lima Pereira (Serviços Gerais)">Antonia Ediva Lima Pereira (Serviços Gerais)</option>
-                    <option value="Antonio Marciano T Rodrigues (Motorista)">Antonio Marciano T Rodrigues (Motorista)</option>
-                    <option value="Claudiana Maria Solon Aguiar (Fisioterapeuta)">Claudiana Maria Solon Aguiar (Fisioterapeuta)</option>
-                    <option value="Clínica De Fisioterapia">Clínica De Fisioterapia</option>
-                    <option value="Clínica Interação">Clínica Interação</option>
-                    <option value="Daiana Marques Mouta (Neuropsicologa)">Daiana Marques Mouta (Neuropsicologa)</option>
-                    <option value="Dr Sergio Lúcio Albuquerque Nóbrega (Psiquiatra)">Dr Sergio Lúcio Albuquerque Nóbrega (Psiquiatra)</option>
-                    <option value="Dr. Danilo Santos Guerreiro (Pneumologista Pediátrico)">Dr. Danilo Santos Guerreiro (Pneumologista Pediátrico)</option>
-                    <option value="Dr. Francisco Airton Rangel Filho (Ginecologista)">Dr. Francisco Airton Rangel Filho (Ginecologista)</option>
-                    <option value="Dr. Guilherme Porto Lustosa (Gastropediátrico)">Dr. Guilherme Porto Lustosa (Gastropediátrico)</option>
-                    <option value="Dr. Isaac Holanda Mendes Mais (Neurologista)">Dr. Isaac Holanda Mendes Mais (Neurologista)</option>
-                    <option value="Dr. Joaquim Nogueira Lopes Neto (Coordenador Médico APS)">Dr. Joaquim Nogueira Lopes Neto (Coordenador Médico APS)</option>
-                    <option value="Dr. Leonardo Tiago Costa dos Santos (Psiquiatra)">Dr. Leonardo Tiago Costa dos Santos (Psiquiatra)</option>
-                    <option value="Dr. Pedro Rubens Araújo Carvalho (Neurologista)">Dr. Pedro Rubens Araújo Carvalho (Neurologista)</option>
-                    <option value="Dr. Rafael Sousa Brito (Pneumologista Adulto)">Dr. Rafael Sousa Brito (Pneumologista Adulto)</option>
-                    <option value="Dr. Sânkia Maria Lopes Aragão (Ultrassonografista)">Dr. Sânkia Maria Lopes Aragão (Ultrassonografista)</option>
-                    <option value="Dr. Tadeu Rodriguez De C. Pinheiro (Ginecologista)">Dr. Tadeu Rodriguez De C. Pinheiro (Ginecologista)</option>
-                    <option value="Dr. Vicente Cristino de Menezes Neto (Acupunturista)">Dr. Vicente Cristino de Menezes Neto (Acupunturista)</option>
-                    <option value="Dr. Yure Guimarães Azevedo (Reumatologista)">Dr. Yure Guimarães Azevedo (Reumatologista)</option>
-                    <option value="DRA. LAÍS JORGE (ENDOCRINOLOGISTA)">DRA. LAÍS JORGE (ENDOCRINOLOGISTA)</option>
-                    <option value="Dra. Andrea Edwigs Pinheiro Menezes Barreto (Alergologista)">Dra. Andrea Edwigs Pinheiro Menezes Barreto (Alergologista)</option>
-                    <option value="Dra. Dandara Vasconcelos Bevilaqua (Médica Sad)">Dra. Dandara Vasconcelos Bevilaqua (Médica Sad)</option>
-                    <option value="Dra. Laís Jorge Moura (Endocrinologista)">Dra. Laís Jorge Moura (Endocrinologista)</option>
-                    <option value="Dra. Lívia Nobre (Pediatra)">Dra. Lívia Nobre (Pediatra)</option>
-                    <option value="Dra. Nara Lívia Pereira Coutinho (Médica Fetal)">Dra. Nara Lívia Pereira Coutinho (Médica Fetal)</option>
-                    <option value="Dra. Raissa Almeida Barros de Oliveira Pereira (Endocrinologista pediátrica)">Dra. Raissa Almeida Barros de Oliveira Pereira (Endocrinologista pediátrica)</option>
-                    <option value="Dra. Sankia Maria Lopes Aragão (Médica da Família e Comunidade)">Dra. Sankia Maria Lopes Aragão (Médica da Família e Comunidade)</option>
-                    <option value="Edival Bringel de Olinda (Gerente Financeiro)">Edival Bringel de Olinda (Gerente Financeiro)</option>
-                    <option value="Edmilson Ferreira Bezerra Filho (Fisioterapeuta)">Edmilson Ferreira Bezerra Filho (Fisioterapeuta)</option>
-                    <option value="Fernanda Pontes d Silva (Fonoaudióloga)">Fernanda Pontes d Silva (Fonoaudióloga)</option>
-                    <option value="Francisco Auricélio Ribeiro da Costa (Almoxarife)">Francisco Auricélio Ribeiro da Costa (Almoxarife)</option>
-                    <option value="Francisco Kaylton Vericissimo de Sá (Fisioterapeuta)">Francisco Kaylton Vericissimo de Sá (Fisioterapeuta)</option>
-                    <option value="Ismael Lee da Cunha Marques (Profissional de Educação Física)">Ismael Lee da Cunha Marques (Profissional de Educação Física)</option>
-                    <option value="Jaci Bianca Cabral Vasconcelos (Psicóloga)">Jaci Bianca Cabral Vasconcelos (Psicóloga)</option>
-                    <option value="Jacqueline De Oliveira Lima (Coordenadora APS)">Jacqueline De Oliveira Lima (Coordenadora APS)</option>
-                    <option value="Jamille Thayna Barroso Venuto (Psicóloga)">Jamille Thayna Barroso Venuto (Psicóloga)</option>
-                    <option value="Joelma Gomes Lima (Coordenadora da Clínica de Interação)">Joelma Gomes Lima (Coordenadora da Clínica de Interação)</option>
-                    <option value="Kaliane Pereira Costa (Fisioterapeuta)">Kaliane Pereira Costa (Fisioterapeuta)</option>
-                    <option value="Kamilla Cardoso Tavares (Analista Administrativo)">Kamilla Cardoso Tavares (Analista Administrativo)</option>
-                    <option value="Keven Mendes Moreira (Fisioterapeuta)">Keven Mendes Moreira (Fisioterapeuta)</option>
-                    <option value="Kilvia Feitoza Ferreira (Psicóloga)">Kilvia Feitoza Ferreira (Psicóloga)</option>
-                    <option value="Leandro Ferreira Lopes (Segurança)">Leandro Ferreira Lopes (Segurança)</option>
-                    <option value="Leiliane Araujo Gadelha Costa (Fisioterapeuta)">Leiliane Araujo Gadelha Costa (Fisioterapeuta)</option>
-                    <option value="Márcia Regina Parente Pazin (Fisioterapeuta)">Márcia Regina Parente Pazin (Fisioterapeuta)</option>
-                    <option value="MARIA JOSÉ (FONOAUDIOLOGA)">MARIA JOSÉ (FONOAUDIOLOGA)</option>
-                    <option value="Maria José Paiva de Moura (Fonoaudióloga)">Maria José Paiva de Moura (Fonoaudióloga)</option>
-                    <option value="Marina Carvalho Nogueira Veras (Nutricionista)">Marina Carvalho Nogueira Veras (Nutricionista)</option>
-                    <option value="Monica Maria Rodrigues De Franca (Técnica De Enfermagem)">Monica Maria Rodrigues De Franca (Técnica De Enfermagem)</option>
-                    <option value="Natercia Almeida Martins (Atendente)">Natercia Almeida Martins (Atendente)</option>
-                    <option value="Pedro Da Silva Coelho (Serviços Gerais)">Pedro Da Silva Coelho (Serviços Gerais)</option>
-                    <option value="Polyane Rodrigues Vasconcelos (Enfermeira)">Polyane Rodrigues Vasconcelos (Enfermeira)</option>
-                    <option value="Quenia Isaias Venuto Lima (Terapeuta Ocupacional)">Quenia Isaias Venuto Lima (Terapeuta Ocupacional)</option>
-                    <option value="Renata Cassemiro Feijão (Psicóloga)">Renata Cassemiro Feijão (Psicóloga)</option>
-                    <option value="Rhana Mont'alverne Barreto (Fisioterapeuta)">Rhana Mont'alverne Barreto (Fisioterapeuta)</option>
+                <label class="question-title">1ª) Selecione ou digite o nome do profissional que lhe atendeu? *</label>
+                <input type="text" name="profissional" list="lista-profissionais" placeholder="Clique para ver a lista ou digite para buscar..." required>
+                
+                <datalist id="lista-profissionais">
+                    <option value="Alita Silva Ribeiro Arcanjo (Gerente APS)">
+                    <option value="Ana Maria Abel de Sousa (Técnica de enfermagem)">
+                    <option value="Antonia Ediva Lima Pereira (Serviços Gerais)">
+                    <option value="Antonio Marciano T Rodrigues (Motorista)">
+                    <option value="Claudiana Maria Solon Aguiar (Fisioterapeuta)">
+                    <option value="Clínica De Fisioterapia">
+                    <option value="Clínica Interação">
+                    <option value="Daiana Marques Mouta (Neuropsicologa)">
+                    <option value="Dr Sergio Lúcio Albuquerque Nóbrega (Psiquiatra)">
+                    <option value="Dr. Danilo Santos Guerreiro (Pneumologista Pediátrico)">
+                    <option value="Dr. Francisco Airton Rangel Filho (Ginecologista)">
+                    <option value="Dr. Guilherme Porto Lustosa (Gastropediátrico)">
+                    <option value="Dr. Isaac Holanda Mendes Mais (Neurologista)">
+                    <option value="Dr. Joaquim Nogueira Lopes Neto (Coordenador Médico APS)">
+                    <option value="Dr. Leonardo Tiago Costa dos Santos (Psiquiatra)">
+                    <option value="Dr. Pedro Rubens Araújo Carvalho (Neurologista)">
+                    <option value="Dr. Rafael Sousa Brito (Pneumologista Adulto)">
+                    <option value="Dr. Sânkia Maria Lopes Aragão (Ultrassonografista)">
+                    <option value="Dr. Tadeu Rodriguez De C. Pinheiro (Ginecologista)">
+                    <option value="Dr. Vicente Cristino de Menezes Neto (Acupunturista)">
+                    <option value="Dr. Yure Guimarães Azevedo (Reumatologista)">
+                    <option value="DRA. LAÍS JORGE (ENDOCRINOLOGISTA)">
+                    <option value="Dra. Andrea Edwigs Pinheiro Menezes Barreto (Alergologista)">
+                    <option value="Dra. Dandara Vasconcelos Bevilaqua (Médica Sad)">
+                    <option value="Dra. Laís Jorge Moura (Endocrinologista)">
+                    <option value="Dra. Lívia Nobre (Pediatra)">
+                    <option value="Dra. Nara Lívia Pereira Coutinho (Médica Fetal)">
+                    <option value="Dra. Raissa Almeida Barros de Oliveira Pereira (Endocrinologista pediátrica)">
+                    <option value="Dra. Sankia Maria Lopes Aragão (Médica da Família e Comunidade)">
+                    <option value="Edival Bringel de Olinda (Gerente Financeiro)">
+                    <option value="Edmilson Ferreira Bezerra Filho (Fisioterapeuta)">
+                    <option value="Fernanda Pontes d Silva (Fonoaudióloga)">
+                    <option value="Francisco Auricélio Ribeiro da Costa (Almoxarife)">
+                    <option value="Francisco Kaylton Vericissimo de Sá (Fisioterapeuta)">
+                    <option value="Ismael Lee da Cunha Marques (Profissional de Educação Física)">
+                    <option value="Jaci Bianca Cabral Vasconcelos (Psicóloga)">
+                    <option value="Jacqueline De Oliveira Lima (Coordenadora APS)">
+                    <option value="Jamille Thayna Barroso Venuto (Psicóloga)">
+                    <option value="Joelma Gomes Lima (Coordenadora da Clínica de Interação)">
+                    <option value="Kaliane Pereira Costa (Fisioterapeuta)">
+                    <option value="Kamilla Cardoso Tavares (Analista Administrativo)">
+                    <option value="Keven Mendes Moreira (Fisioterapeuta)">
+                    <option value="Kilvia Feitoza Ferreira (Psicóloga)">
+                    <option value="Leandro Ferreira Lopes (Segurança)">
+                    <option value="Leiliane Araujo Gadelha Costa (Fisioterapeuta)">
+                    <option value="Márcia Regina Parente Pazin (Fisioterapeuta)">
+                    <option value="MARIA JOSÉ (FONOAUDIOLOGA)">
+                    <option value="Maria José Paiva de Moura (Fonoaudióloga)">
+                    <option value="Marina Carvalho Nogueira Veras (Nutricionista)">
+                    <option value="Monica Maria Rodrigues De Franca (Técnica De Enfermagem)">
+                    <option value="Natercia Almeida Martins (Atendente)">
+                    <option value="Pedro Da Silva Coelho (Serviços Gerais)">
+                    <option value="Polyane Rodrigues Vasconcelos (Enfermeira)">
+                    <option value="Quenia Isaias Venuto Lima (Terapeuta Ocupacional)">
+                    <option value="Renata Cassemiro Feijão (Psicóloga)">
+                    <option value="Rhana Mont'alverne Barreto (Fisioterapeuta)">
                     <option value="Rildon Alves da Costa (Farmacêutico)">Rildon Alves da Costa (Farmacêutico)</option>
-                    <option value="Rojelma Carneiro Ferreira (Enfermeira)">Rojelma Carneiro Ferreira (Enfermeira)</option>
-                    <option value="Rosyane Maria C Vasconcelos Sousa (Farmacêutica)">Rosyane Maria C Vasconcelos Sousa (Farmacêutica)</option>
-                    <option value="Sander Paulo Carneiro Flor (Psicólogo)">Sander Paulo Carneiro Flor (Psicólogo)</option>
-                    <option value="Sarah Carvalho Félix (Nutricionista)">Sarah Carvalho Félix (Nutricionista)</option>
-                    <option value="Serviço De Atendimento Domiciliar – Sad">Serviço De Atendimento Domiciliar – Sad</option>
-                    <option value="Talita Ramos Bantim (Coordenadora Sad)">Talita Ramos Bantim (Coordenadora Sad)</option>
-                    <option value="Thaisa Quixadá Fontenele (Psicóloga)">Thaisa Quixadá Fontenele (Psicóloga)</option>
-                    <option value="Thiago Carvalho Freitas (Psicólogo)">Thiago Carvalho Freitas (Psicólogo)</option>
-                    <option value="Vinicius De Sousa Lopes (Administrativo)">Vinicius De Sousa Lopes (Administrativo)</option>
-                </select>
+                    <option value="Rojelma Carneiro Ferreira (Enfermeira)">
+                    <option value="Rosyane Maria C Vasconcelos Sousa (Farmacêutica)">
+                    <option value="Sander Paulo Carneiro Flor (Psicólogo)">
+                    <option value="Sarah Carvalho Félix (Nutricionista)">
+                    <option value="Serviço De Atendimento Domiciliar – Sad">
+                    <option value="Talita Ramos Bantim (Coordenadora Sad)">
+                    <option value="Thaisa Quixadá Fontenele (Psicóloga)">
+                    <option value="Thiago Carvalho Freitas (Psicólogo)">
+                    <option value="Vinicius De Sousa Lopes (Administrativo)">
+                </datalist>
             </div>
 
             <!-- PERGUNTA 2 -->
@@ -294,7 +289,6 @@
         const submitBtn = document.getElementById('submitBtn');
         const mainContainer = document.getElementById('mainContainer');
         const successMessage = document.getElementById('successMessage');
-
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyr3bnhd0me_FBTQeogIquXV-gkIkGlW9hAvxOF211vs0OaF7FuOyMcewCTz0xukKWttQ/exec';
 
         form.addEventListener('submit', e => {
@@ -302,7 +296,6 @@
             submitBtn.textContent = 'Enviando...';
             submitBtn.disabled = true;
 
-            // Converte os dados do formulário em um objeto JSON real
             const formData = new FormData(form);
             const data = {};
             formData.forEach((value, key) => (data[key] = value));
@@ -310,7 +303,7 @@
             fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Contorna o bloqueio mantendo os dados
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(data)
             })
             .then(() => {
