@@ -41,6 +41,7 @@
             padding: 25px; 
             border-radius: 8px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+            position: relative; 
         }
 
         .header-card {
@@ -73,7 +74,8 @@
             text-align: left;
         }
 
-        /* Estilo do Input com Datalist */
+        .search-select-container { position: relative; width: 100%; }
+        
         input[type="text"], textarea { 
             width: 100%; padding: 14px; border: 1px solid #ccc; 
             border-radius: 6px; box-sizing: border-box; font-family: inherit; 
@@ -82,7 +84,35 @@
         input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--unimed-green); }
         textarea { min-height: 100px; resize: vertical; }
 
-        /* Estilo das Estrelas */
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .dropdown-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #333;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--unimed-green);
+            color: white;
+        }
+
         .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 1px; }
         .star-rating input[type="radio"] { display: none; }
         .star-rating label { font-size: 38px; color: #d3d3d3; cursor: pointer; transition: 0.2s ease transform 0.1s ease; }
@@ -92,7 +122,6 @@
         
         @media (max-width: 400px) { .star-rating label { font-size: 30px; } }
         
-        /* Estilo dos Botões Sim/Não */
         .choice-group { display: flex; gap: 10px; }
         .choice-group input[type="radio"] { display: none; }
         .choice-group label {
@@ -139,85 +168,17 @@
             <p>Questões com asterisco são obrigatórias!</p>
         </div>
 
-        <form id="surveyForm">
+        <form id="surveyForm" autocomplete="off">
             <input type="hidden" name="local" value="AIS">
 
-            <!-- PERGUNTA 1 COM PESQUISA E LISTAGEM SIMULTÂNEAS -->
             <div class="card">
-                <label class="question-title">1ª) Selecione ou digite o nome do profissional que lhe atendeu? *</label>
-                <input type="text" name="profissional" list="lista-profissionais" placeholder="Clique para ver a lista ou digite para buscar..." required>
-                
-                <datalist id="lista-profissionais">
-                    <option value="Alita Silva Ribeiro Arcanjo (Gerente APS)">
-                    <option value="Ana Maria Abel de Sousa (Técnica de enfermagem)">
-                    <option value="Antonia Ediva Lima Pereira (Serviços Gerais)">
-                    <option value="Antonio Marciano T Rodrigues (Motorista)">
-                    <option value="Claudiana Maria Solon Aguiar (Fisioterapeuta)">
-                    <option value="Clínica De Fisioterapia">
-                    <option value="Clínica Interação">
-                    <option value="Daiana Marques Mouta (Neuropsicologa)">
-                    <option value="Dr Sergio Lúcio Albuquerque Nóbrega (Psiquiatra)">
-                    <option value="Dr. Danilo Santos Guerreiro (Pneumologista Pediátrico)">
-                    <option value="Dr. Francisco Airton Rangel Filho (Ginecologista)">
-                    <option value="Dr. Guilherme Porto Lustosa (Gastropediátrico)">
-                    <option value="Dr. Isaac Holanda Mendes Mais (Neurologista)">
-                    <option value="Dr. Joaquim Nogueira Lopes Neto (Coordenador Médico APS)">
-                    <option value="Dr. Leonardo Tiago Costa dos Santos (Psiquiatra)">
-                    <option value="Dr. Pedro Rubens Araújo Carvalho (Neurologista)">
-                    <option value="Dr. Rafael Sousa Brito (Pneumologista Adulto)">
-                    <option value="Dr. Sânkia Maria Lopes Aragão (Ultrassonografista)">
-                    <option value="Dr. Tadeu Rodriguez De C. Pinheiro (Ginecologista)">
-                    <option value="Dr. Vicente Cristino de Menezes Neto (Acupunturista)">
-                    <option value="Dr. Yure Guimarães Azevedo (Reumatologista)">
-                    <option value="DRA. LAÍS JORGE (ENDOCRINOLOGISTA)">
-                    <option value="Dra. Andrea Edwigs Pinheiro Menezes Barreto (Alergologista)">
-                    <option value="Dra. Dandara Vasconcelos Bevilaqua (Médica Sad)">
-                    <option value="Dra. Laís Jorge Moura (Endocrinologista)">
-                    <option value="Dra. Lívia Nobre (Pediatra)">
-                    <option value="Dra. Nara Lívia Pereira Coutinho (Médica Fetal)">
-                    <option value="Dra. Raissa Almeida Barros de Oliveira Pereira (Endocrinologista pediátrica)">
-                    <option value="Dra. Sankia Maria Lopes Aragão (Médica da Família e Comunidade)">
-                    <option value="Edival Bringel de Olinda (Gerente Financeiro)">
-                    <option value="Edmilson Ferreira Bezerra Filho (Fisioterapeuta)">
-                    <option value="Fernanda Pontes d Silva (Fonoaudióloga)">
-                    <option value="Francisco Auricélio Ribeiro da Costa (Almoxarife)">
-                    <option value="Francisco Kaylton Vericissimo de Sá (Fisioterapeuta)">
-                    <option value="Ismael Lee da Cunha Marques (Profissional de Educação Física)">
-                    <option value="Jaci Bianca Cabral Vasconcelos (Psicóloga)">
-                    <option value="Jacqueline De Oliveira Lima (Coordenadora APS)">
-                    <option value="Jamille Thayna Barroso Venuto (Psicóloga)">
-                    <option value="Joelma Gomes Lima (Coordenadora da Clínica de Interação)">
-                    <option value="Kaliane Pereira Costa (Fisioterapeuta)">
-                    <option value="Kamilla Cardoso Tavares (Analista Administrativo)">
-                    <option value="Keven Mendes Moreira (Fisioterapeuta)">
-                    <option value="Kilvia Feitoza Ferreira (Psicóloga)">
-                    <option value="Leandro Ferreira Lopes (Segurança)">
-                    <option value="Leiliane Araujo Gadelha Costa (Fisioterapeuta)">
-                    <option value="Márcia Regina Parente Pazin (Fisioterapeuta)">
-                    <option value="MARIA JOSÉ (FONOAUDIOLOGA)">
-                    <option value="Maria José Paiva de Moura (Fonoaudióloga)">
-                    <option value="Marina Carvalho Nogueira Veras (Nutricionista)">
-                    <option value="Monica Maria Rodrigues De Franca (Técnica De Enfermagem)">
-                    <option value="Natercia Almeida Martins (Atendente)">
-                    <option value="Pedro Da Silva Coelho (Serviços Gerais)">
-                    <option value="Polyane Rodrigues Vasconcelos (Enfermeira)">
-                    <option value="Quenia Isaias Venuto Lima (Terapeuta Ocupacional)">
-                    <option value="Renata Cassemiro Feijão (Psicóloga)">
-                    <option value="Rhana Mont'alverne Barreto (Fisioterapeuta)">
-                    <option value="Rildon Alves da Costa (Farmacêutico)">Rildon Alves da Costa (Farmacêutico)</option>
-                    <option value="Rojelma Carneiro Ferreira (Enfermeira)">
-                    <option value="Rosyane Maria C Vasconcelos Sousa (Farmacêutica)">
-                    <option value="Sander Paulo Carneiro Flor (Psicólogo)">
-                    <option value="Sarah Carvalho Félix (Nutricionista)">
-                    <option value="Serviço De Atendimento Domiciliar – Sad">
-                    <option value="Talita Ramos Bantim (Coordenadora Sad)">
-                    <option value="Thaisa Quixadá Fontenele (Psicóloga)">
-                    <option value="Thiago Carvalho Freitas (Psicólogo)">
-                    <option value="Vinicius De Sousa Lopes (Administrativo)">
-                </datalist>
+                <label class="question-title">1ª) Selecione ou pesquise o nome do profissional que lhe atendeu? *</label>
+                <div class="search-select-container">
+                    <input type="text" id="inputProfissional" name="profissional" placeholder="Clique para ver a lista ou digite para buscar..." required>
+                    <div id="dropdownList" class="dropdown-list"></div>
+                </div>
             </div>
 
-            <!-- PERGUNTA 2 -->
             <div class="card">
                 <label class="question-title">2ª) Qual nota você dá para os horários disponíveis para o agendamento da consulta (ou procedimento)? *</label>
                 <div class="star-rating">
@@ -234,7 +195,6 @@
                 </div>
             </div>
 
-            <!-- PERGUNTA 3 -->
             <div class="card">
                 <label class="question-title">3ª) Você gostou do seu atendimento? *</label>
                 <div class="choice-group">
@@ -243,7 +203,6 @@
                 </div>
             </div>
 
-            <!-- PERGUNTA 4 -->
             <div class="card">
                 <label class="question-title">4ª) Você recomendaria os nossos serviços? *</label>
                 <div class="choice-group">
@@ -252,7 +211,6 @@
                 </div>
             </div>
 
-            <!-- PERGUNTA 5 -->
             <div class="card">
                 <label class="question-title">5ª) De modo geral, qual nota você dá aos nossos serviços? *</label>
                 <div class="star-rating">
@@ -269,7 +227,6 @@
                 </div>
             </div>
 
-            <!-- PERGUNTA 6 -->
             <div class="card">
                 <label class="question-title">6ª) Sugestões, críticas ou elogios:</label>
                 <textarea name="sugestoes" placeholder="Deixe aqui seu comentário..."></textarea>
@@ -285,6 +242,115 @@
     </div>
 
     <script>
+        const profissionais = [
+            "Alita Silva Ribeiro Arcanjo (Gerente APS)",
+            "Ana Maria Abel de Sousa (Técnica de enfermagem)",
+            "Antonia Ediva Lima Pereira (Serviços Gerais)",
+            "Antonio Marciano T Rodrigues (Motorista)",
+            "Claudiana Maria Solon Aguiar (Fisioterapeuta)",
+            "Clínica De Fisioterapia",
+            "Clínica Interação",
+            "Daiana Marques Mouta (Neuropsicologa)",
+            "Dr Sergio Lúcio Albuquerque Nóbrega (Psiquiatra)",
+            "Dr. Danilo Santos Guerreiro (Pneumologista Pediátrico)",
+            "Dr. Francisco Airton Rangel Filho (Ginecologista)",
+            "Dr. Guilherme Porto Lustosa (Gastropediátrico)",
+            "Dr. Isaac Holanda Mendes Mais (Neurologista)",
+            "Dr. Joaquim Nogueira Lopes Neto (Coordenador Médico APS)",
+            "Dr. Leonardo Tiago Costa dos Santos (Psiquiatra)",
+            "Dr. Pedro Rubens Araújo Carvalho (Neurologista)",
+            "Dr. Rafael Sousa Brito (Pneumologista Adulto)",
+            "Dr. Sânkia Maria Lopes Aragão (Ultrassonografista)",
+            "Dr. Tadeu Rodriguez De C. Pinheiro (Ginecologista)",
+            "Dr. Vicente Cristino de Menezes Neto (Acupunturista)",
+            "Dr. Yure Guimarães Azevedo (Reumatologista)",
+            "DRA. LAÍS JORGE (ENDOCRINOLOGISTA)",
+            "Dra. Andrea Edwigs Pinheiro Menezes Barreto (Alergologista)",
+            "Dra. Dandara Vasconcelos Bevilaqua (Médica Sad)",
+            "Dra. Laís Jorge Moura (Endocrinologista)",
+            "Dra. Lívia Nobre (Pediatra)",
+            "Dra. Nara Lívia Pereira Coutinho (Médica Fetal)",
+            "Dra. Raissa Almeida Barros de Oliveira Pereira (Endocrinologista pediátrica)",
+            "Dra. Sankia Maria Lopes Aragão (Médica da Família e Comunidade)",
+            "Edival Bringel de Olinda (Gerente Financeiro)",
+            "Edmilson Ferreira Bezerra Filho (Fisioterapeuta)",
+            "Fernanda Pontes d Silva (Fonoaudióloga)",
+            "Francisco Auricélio Ribeiro da Costa (Almoxarife)",
+            "Francisco Kaylton Vericissimo de Sá (Fisioterapeuta)",
+            "Ismael Lee da Cunha Marques (Profissional de Educação Física)",
+            "Jaci Bianca Cabral Vasconcelos (Psicóloga)",
+            "Jacqueline De Oliveira Lima (Coordenadora APS)",
+            "Jamille Thayna Barroso Venuto (Psicóloga)",
+            "Joelma Gomes Lima (Coordenadora da Clínica de Interação)",
+            "Kaliane Pereira Costa (Fisioterapeuta)",
+            "Kamilla Cardoso Tavares (Analista Administrativo)",
+            "Keven Mendes Moreira (Fisioterapeuta)",
+            "Kilvia Feitoza Ferreira (Psicóloga)",
+            "Leandro Ferreira Lopes (Segurança)",
+            "Leiliane Araujo Gadelha Costa (Fisioterapeuta)",
+            "Márcia Regina Parente Pazin (Fisioterapeuta)",
+            "MARIA JOSÉ (FONOAUDIOLOGA)",
+            "Maria José Paiva de Moura (Fonoaudióloga)",
+            "Marina Carvalho Nogueira Veras (Nutricionista)",
+            "Monica Maria Rodrigues De Franca (Técnica De Enfermagem)",
+            "Natercia Almeida Martins (Atendente)",
+            "Pedro Da Silva Coelho (Serviços Gerais)",
+            "Polyane Rodrigues Vasconcelos (Enfermeira)",
+            "Quenia Isaias Venuto Lima (Terapeuta Ocupacional)",
+            "Renata Cassemiro Feijão (Psicóloga)",
+            "Rhana Mont'alverne Barreto (Fisioterapeuta)",
+            "Rildon Alves da Costa (Farmacêutico)",
+            "Rojelma Carneiro Ferreira (Enfermeira)",
+            "Rosyane Maria C Vasconcelos Sousa (Farmacêutica)",
+            "Sander Paulo Carneiro Flor (Psicólogo)",
+            "Sarah Carvalho Félix (Nutricionista)",
+            "Serviço De Atendimento Domiciliar – Sad",
+            "Talita Ramos Bantim (Coordenadora Sad)",
+            "Thaisa Quixadá Fontenele (Psicóloga)",
+            "Thiago Carvalho Freitas (Psicólogo)",
+            "Vinicius De Sousa Lopes (Administrativo)"
+        ];
+
+        const input = document.getElementById('inputProfissional');
+        const dropdown = document.getElementById('dropdownList');
+
+        function renderizarLista(itens) {
+            dropdown.innerHTML = '';
+            if (itens.length === 0) {
+                dropdown.style.display = 'none';
+                return;
+            }
+            itens.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'dropdown-item';
+                div.textContent = item;
+                div.addEventListener('click', () => {
+                    input.value = item;
+                    dropdown.style.display = 'none';
+                });
+                dropdown.appendChild(div);
+            });
+            dropdown.style.display = 'block';
+        }
+
+        input.addEventListener('focus', () => {
+            renderizarLista(profissionais);
+        });
+
+        input.addEventListener('input', () => {
+            const termo = input.value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const filtrados = profissionais.filter(p => 
+                p.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(termo)
+            );
+            renderizarLista(filtrados);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-select-container')) {
+                dropdown.style.display = 'none';
+            }
+        });
+
         const form = document.getElementById('surveyForm');
         const submitBtn = document.getElementById('submitBtn');
         const mainContainer = document.getElementById('mainContainer');
