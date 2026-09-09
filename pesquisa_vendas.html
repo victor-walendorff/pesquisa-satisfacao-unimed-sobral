@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Pós-Venda - Unimed Sobral</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png">
+    <style>
+        :root {
+            --unimed-green: #004e4c;
+            --bg-color: #004e4c; 
+            --surface-color: #ffffff;
+            --text-color: #333333;
+            --star-color: #FFD700; 
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .form-container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px; }
+
+        .logo-container { text-align: center; margin: 0; }
+        .logo-container img {
+            max-width: 200px; 
+            height: auto;
+            margin-top: -60px;
+            margin-bottom: -50px;
+            position: relative;
+        }
+
+        .card { 
+            background-color: var(--surface-color); 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+            position: relative; 
+        }
+
+        .header-card {
+            text-align: center;
+            padding: 30px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-card h2 {
+            color: var(--bg-color);
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .header-card .intro-text {
+            color: var(--text-color);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .header-card p.required-alert {
+            color: red;
+            margin: 10px 0 0 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            width: 100%;
+        }
+
+        .question-title { 
+            font-weight: bold; 
+            color: var(--unimed-green); 
+            margin-bottom: 15px; 
+            display: block; 
+            text-align: left;
+        }
+
+        .search-select-container { position: relative; width: 100%; }
+        
+        input[type="text"], textarea { 
+            width: 100%; padding: 14px; border: 1px solid #ccc; 
+            border-radius: 6px; box-sizing: border-box; font-family: inherit; 
+            font-size: 1rem; background-color: #f9f9f9;
+        }
+        input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--unimed-green); }
+        textarea { min-height: 100px; resize: vertical; }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .dropdown-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #333;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--unimed-green);
+            color: white;
+        }
+
+        /* Grade de Emojis (Estilo Operadora) */
+        .grid-rating { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-rating input[type="radio"] { display: none; }
+        .grid-rating label {
+            text-align: center; padding: 16px 10px; background-color: #e9ecef; 
+            border-radius: 8px; cursor: pointer; font-weight: bold; color: #555; 
+            transition: 0.2s ease; font-size: 1.05rem; display: flex; flex-direction: column; gap: 5px;
+        }
+        .grid-rating label span { font-size: 1.6rem; }
+        .grid-rating input[type="radio"]:checked + label { background-color: var(--unimed-green); color: white; transform: scale(1.02); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+
+        /* Grupos de Opções Empilhadas (Sim/Não/Parcialmente) */
+        .options-vertical { display: flex; flex-direction: column; gap: 10px; }
+        .options-vertical input[type="radio"] { display: none; }
+        .options-vertical label {
+            padding: 14px; background-color: #e9ecef; border-radius: 6px;
+            cursor: pointer; font-weight: bold; color: #555; transition: 0.2s ease; text-align: center;
+        }
+        .options-vertical input[type="radio"]:checked + label {
+            background-color: var(--unimed-green); color: white; transform: scale(1.01);
+        }
+
+        /* Escala de 0 a 10 em Círculos */
+        .scale-rating { display: flex; justify-content: space-between; gap: 4px; flex-wrap: wrap; }
+        .scale-rating input[type="radio"] { display: none; }
+        .scale-rating label {
+            width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+            background-color: #e9ecef; border-radius: 50%; cursor: pointer; font-weight: bold; color: #555;
+            transition: 0.2s ease; font-size: 0.95rem;
+        }
+        .scale-rating label:hover, .scale-rating input[type="radio"]:checked + label {
+            background-color: var(--unimed-green); color: white; transform: scale(1.1); box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        @media (max-width: 480px) { .scale-rating label { width: 30px; height: 30px; font-size: 0.85rem; } }
+
+        .submit-btn { 
+            width: 100%; padding: 16px; background-color: transparent; color: white;
+            border: 2px solid white; border-radius: 8px; font-size: 1.1rem; 
+            font-weight: bold; cursor: pointer; margin-top: 5px; transition: all 0.3s ease; 
+        }
+        .submit-btn:hover { background-color: white; color: var(--bg-color); }
+
+        .success-message { display: none; background: white; padding: 40px; border-radius: 8px; text-align: center; color: var(--unimed-green); max-width: 600px; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        #surveyForm { display: flex; flex-direction: column; gap: 15px; }          
+    </style>
+</head>
+<body>
+
+    <div class="form-container" id="mainContainer">
+        
+        <div class="card header-card" id="headerText">
+            <div class="logo-container">
+                <img src="https://i.postimg.cc/hj0vNJp5/logo-unimed-sobral.png" alt="Logo Unimed">
+            </div>
+            <h2>Pesquisa de Pós-Venda – Unimed Sobral</h2>
+            <div class="intro-text">
+                Olá! 👋<br><br>
+                A Unimed Sobral quer saber como foi sua experiência após a contratação do nosso plano de saúde. Convidamos você a responder uma rápida pesquisa de pós-venda. Leva menos de 2 minutos e sua opinião é essencial para continuarmos oferecendo um atendimento de qualidade.<br><br>
+                Contamos com você! 💚
+            </div>
+            <p class="required-alert">Questões com asterisco são obrigatórias!</p>
+        </div>
+
+        <form id="surveyForm" autocomplete="off">
+            <input type="hidden" name="local" value="POS_VENDA">
+
+            <!-- NOME COMPLETO -->
+            <div class="card">
+                <label class="question-title">Nome Completo (Opcional):</label>
+                <input type="text" name="nome" placeholder="Digite seu nome (caso deseje se identificar)">
+            </div>
+
+            <!-- VENDEDOR -->
+            <div class="card">
+                <label class="question-title">Informe o nome do vendedor que realizou a venda: *</label>
+                <div class="search-select-container">
+                    <input type="text" id="inputVendedor" name="vendedor" placeholder="Clique para ver a lista ou digite para buscar..." required>
+                    <div id="dropdownList" class="dropdown-list"></div>
+                </div>
+                <!-- Campo extra caso selecione Outro -->
+                <input type="text" id="campo_outro_vendedor" name="vendedor_outro" placeholder="Digite o nome do vendedor..." style="display: none; margin-top: 15px;">
+            </div>
+
+            <!-- PERGUNTA 1 -->
+            <div class="card">
+                <label class="question-title">1ª) Como você avalia o atendimento recebido no momento da venda do plano? *</label>
+                <div class="grid-rating">
+                    <input type="radio" id="av1" name="atendimento_venda" value="Excelente" required><label for="av1"><span>🤩</span> Excelente</label>
+                    <input type="radio" id="av2" name="atendimento_venda" value="Bom"><label for="av2"><span>🙂</span> Bom</label>
+                    <input type="radio" id="av3" name="atendimento_venda" value="Regular"><label for="av3"><span>😐</span> Regular</label>
+                    <input type="radio" id="av4" name="atendimento_venda" value="Ruim"><label for="av4"><span>😞</span> Ruim</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 2 -->
+            <div class="card">
+                <label class="question-title">2ª) As informações sobre cobertura, carência e rede credenciada foram explicadas com clareza? *</label>
+                <div class="options-vertical">
+                    <input type="radio" id="p2_1" name="clareza_infos" value="Sim" required><label for="p2_1">Sim</label>
+                    <input type="radio" id="p2_2" name="clareza_infos" value="Parcialmente"><label for="p2_2">Parcialmente</label>
+                    <input type="radio" id="p2_3" name="clareza_infos" value="Não"><label for="p2_3">Não</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 3 -->
+            <div class="card">
+                <label class="question-title">3ª) Você recebeu o acesso a carteirinha e demais orientações dentro do prazo informado? *</label>
+                <div class="options-vertical">
+                    <input type="radio" id="p3_1" name="prazo_carteirinha" value="Sim" required><label for="p3_1">Sim</label>
+                    <input type="radio" id="p3_2" name="prazo_carteirinha" value="Não"><label for="p3_2">Não</label>
+                    <input type="radio" id="p3_3" name="prazo_carteirinha" value="Ainda não recebi"><label for="p3_3">Ainda não recebi</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 4 -->
+            <div class="card">
+                <label class="question-title">4ª) Como foi sua experiência com o primeiro atendimento ou serviço utilizado após a contratação? *</label>
+                <div class="options-vertical">
+                    <input type="radio" id="p4_1" name="primeiro_atendimento" value="Muito Satisfatória" required><label for="p4_1">Muito Satisfatória</label>
+                    <input type="radio" id="p4_2" name="primeiro_atendimento" value="Satisfatória"><label for="p4_2">Satisfatória</label>
+                    <input type="radio" id="p4_3" name="primeiro_atendimento" value="Insatisfatória"><label for="p4_3">Insatisfatória</label>
+                    <input type="radio" id="p4_4" name="primeiro_atendimento" value="Ainda não utilizei"><label for="p4_4">Ainda não utilizei</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 5 -->
+            <div class="card">
+                <label class="question-title">5ª) Em uma escala de 0 a 10, qual a chance de você indicar a Unimed Sobral a outras pessoas? *</label>
+                <div class="scale-rating">
+                    <input type="radio" id="s0" name="indicacao" value="0" required><label for="s0">0</label>
+                    <input type="radio" id="s1" name="indicacao" value="1"><label for="s1">1</label>
+                    <input type="radio" id="s2" name="indicacao" value="2"><label for="s2">2</label>
+                    <input type="radio" id="s3" name="indicacao" value="3"><label for="s3">3</label>
+                    <input type="radio" id="s4" name="indicacao" value="4"><label for="s4">4</label>
+                    <input type="radio" id="s5" name="indicacao" value="5"><label for="s5">5</label>
+                    <input type="radio" id="s6" name="indicacao" value="6"><label for="s6">6</label>
+                    <input type="radio" id="s7" name="indicacao" value="7"><label for="s7">7</label>
+                    <input type="radio" id="s8" name="indicacao" value="8"><label for="s8">8</label>
+                    <input type="radio" id="s9" name="indicacao" value="9"><label for="s9">9</label>
+                    <input type="radio" id="s10" name="indicacao" value="10"><label for="s10">10</label>
+                </div>
+            </div>
+
+            <!-- PERGUNTA 6 -->
+            <div class="card">
+                <label class="question-title">6ª) Deseja deixar alguma sugestão ou comentário?</label>
+                <textarea name="comentario" placeholder="Deixe aqui seu comentário..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">ENVIAR</button>
+        </form>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        <h2>Obrigado!</h2>
+        <p>Sua avaliação foi registrada e é muito importante para nós.</p>
+    </div>
+
+    <script>
+        const vendedores = [
+            "Alan Carneiro",
+            "Carlito Júnior",
+            "Francisco Mota",
+            "Thiago Romão",
+            "Ronaldo Lourenço",
+            "Outro"
+        ];
+
+        const input = document.getElementById('inputVendedor');
+        const dropdown = document.getElementById('dropdownList');
+        const campoOutroVendedor = document.getElementById('campo_outro_vendedor');
+
+        function renderizarLista(itens) {
+            dropdown.innerHTML = '';
+            if (itens.length === 0) {
+                dropdown.style.display = 'none';
+                return;
+            }
+            itens.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'dropdown-item';
+                div.textContent = item;
+                div.addEventListener('click', () => {
+                    input.value = item;
+                    dropdown.style.display = 'none';
+                    checarOutro(item);
+                });
+                dropdown.appendChild(div);
+            });
+            dropdown.style.display = 'block';
+        }
+
+        function checarOutro(valor) {
+            if (valor === "Outro") {
+                campoOutroVendedor.style.display = 'block';
+                campoOutroVendedor.required = true;
+            } else {
+                campoOutroVendedor.style.display = 'none';
+                campoOutroVendedor.required = false;
+                campoOutroVendedor.value = '';
+            }
+        }
+
+        input.addEventListener('focus', () => {
+            renderizarLista(vendedores);
+        });
+
+        input.addEventListener('input', () => {
+            const termo = input.value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const filtrados = vendedores.filter(v => 
+                v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(termo)
+            );
+            renderizarLista(filtrados);
+            checarOutro(input.value);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-select-container')) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Envio do Formulário
+        const form = document.getElementById('surveyForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const mainContainer = document.getElementById('mainContainer');
+        const successMessage = document.getElementById('successMessage');
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyr3bnhd0me_FBTQeogIquXV-gkIkGlW9hAvxOF211vs0OaF7FuOyMcewCTz0xukKWttQ/exec';
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+            
+            // Tratativa para o campo Outro do vendedor
+            if (formData.get('vendedor') === 'Outro' && formData.get('vendedor_outro')) {
+                formData.set('vendedor', 'Outro: ' + formData.get('vendedor_outro'));
+            }
+
+            const data = {};
+            formData.forEach((value, key) => (data[key] = value));
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                mainContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+                setTimeout(() => { window.location.reload(); }, 3000);
+            })
+            .catch(() => {
+                submitBtn.textContent = 'Erro de conexão. Tente novamente.';
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
